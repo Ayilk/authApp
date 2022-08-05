@@ -13,8 +13,8 @@ export class LoginComponent  {
 
 
   miFormulario: FormGroup = this.fb.group({
-    email: ['test1@test.com', [Validators.required, Validators.email]],
-    password: ['256897', [Validators.required, Validators.minLength(6)]]
+    email: ['test1@mail.com', [Validators.required, Validators.email]],
+    password: ['123456', [Validators.required, Validators.minLength(6)]]
   })
 
 
@@ -28,8 +28,13 @@ export class LoginComponent  {
     
     const {email, password} = this.miFormulario.value;
     this.auhtService.login(email,password)
-    .subscribe(resp => {
-      console.log(resp)
+    .subscribe(ok => {
+      // console.log(ok)
+      if(ok){
+        this.router.navigateByUrl('/dashboard')
+      }else{
+        //Mostrar el mensjae de error
+      }
     })
 
     // this.router.navigateByUrl('/dashboard');
