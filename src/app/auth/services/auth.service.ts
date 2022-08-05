@@ -20,11 +20,11 @@ export class AuthService {
 
   login(email: string, password: string){
 
-    const url = `${this.baseUrl}/auth/`;
+    const url = `${this.baseUrl}/auth`;
     const body = { email, password};
 
     
-    return this.http.post<AuthResponse>(url, body)
+    return this.http.post<AuthResponse>( url, body )
      .pipe(
       tap(resp => {
        if(resp.ok){
@@ -34,8 +34,9 @@ export class AuthService {
         }
        }
       }),
-      map(resp => resp.ok),
-      catchError(err => of(false))
+      map(resp => {
+        console.log("resp.ok = ",resp.ok);resp.ok}),
+      catchError(err => of(err))
      )
   }
 }
