@@ -1,6 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, of, tap} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+import { of, Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+
 import { environment } from '../../../environments/environment';
 import { AuthResponse, Usuario } from '../interfaces/interfaces';
 
@@ -26,17 +29,17 @@ export class AuthService {
     
     return this.http.post<AuthResponse>( url, body )
      .pipe(
-      tap(resp => {
+      tap(resp => {       
        if(resp.ok){
+        localStorage.setItem('token', resp.token!);
         this._usuario = {
           name: resp.name!,
           uid: resp.uid!,
         }
        }
       }),
-      map(resp => {
-        console.log("resp.ok = ",resp.ok);resp.ok}),
-      catchError(err => of(err))
+      map( resp => resp.ok ),
+      catchError( err => of(err.error.msg) )
      )
   }
 }

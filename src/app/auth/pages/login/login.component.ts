@@ -16,25 +16,26 @@ export class LoginComponent  {
 
 
   miFormulario: FormGroup = this.fb.group({
-    email: ['test1@mail.com', [Validators.required, Validators.email]],
-    password: ['123456', [Validators.required, Validators.minLength(6)]]
+    email: ['valeria@mail.com', [Validators.required, Validators.email]],
+    password: ['246810', [Validators.required, Validators.minLength(5)]]
   })
 
 
   constructor(private fb: FormBuilder,
               private router: Router,
-              private auhtService: AuthService) { }
+              private authService: AuthService) { }
 
-  login(){
-    console.log(this.miFormulario.value);
-    console.log(this.miFormulario.valid);
+
+  login( ){
+    console.log('value',this.miFormulario.value);
+    console.log('valid',this.miFormulario.valid);
     
     const { email, password } = this.miFormulario.value;
 
-    this.auhtService.login( email,password )
+    this.authService.login( email,password )
     .subscribe(ok => {
-      
       console.log("ok = ",ok)
+      
       if(ok === true){
         this.router.navigateByUrl('/dashboard')
       }else{
